@@ -8,9 +8,8 @@ function Conversion() {
       company_name: config.company_name,
       customer_id: Number(this.getCookieValue('customer_id'))
     }
-  
     xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8080/customer-update');
+    xhr.open('POST', 'http://localhost:8080/customer-update', false);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.onload = function() {
       if (xhr.readyState === 4) {  
@@ -27,13 +26,14 @@ function Conversion() {
   this.updateActivity = function(config) {
     var params = {
       event: config.event,
-      conversion_event_id: config.conversion_event_id,
+      conversion_event_id: this.getConversionId(45, function(data) {
+          return data;
+      }),
       user_id: config.user_id,
       customer_id: Number(this.getCookieValue('customer_id'))
     }
-    
     xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8080/customer-activity-conversion');
+    xhr.open('POST', 'http://localhost:8080/customer-activity-conversion', false);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.onload = function() {
       if (xhr.readyState === 4) {  
@@ -51,8 +51,34 @@ function Conversion() {
     var b = document.cookie.match('(^|[^;]+)\\s*' + cookie_name + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
   }
-
+  
+  
+  this.getConversionId = function(id, callback) {
+    var params = {
+      user_id: id
+    }
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:8080/conversion-id', false);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onload = function() {
+      if (xhr.readyState === 4) {  
+          if (xhr.status === 200) { 
+            callback(JSON.parse(xhr.responseText));
+    
+          } else {  
+            console.log("Error", xhr.statusText);  
+          }  
+      }  
+    };
+    xhr.send(JSON.stringify(params));
+  }
+  
+  this.getConversionId(45, function(data) {
+      console.log(data);
+  });
 }
+
+
 
 var conversion = new Conversion();
 
