@@ -1,4 +1,13 @@
 function Conversion() {
+  
+  this.convert = function(config) {
+    config = config || {};
+    
+    // config.event = config.event || "conversion";
+    
+    this.updateCustomer(config);
+    this.updateActivity(config);
+  }
 
   this.updateCustomer = function(config) {
     postData('http://localhost:8080/customer-update', {
@@ -22,10 +31,10 @@ function Conversion() {
   }
 
   this.updateActivity = function(config) {
-    postData('http://localhost:8080/customer-activity-conversion', {
+    postData('http://localhost:8080/customer-activity', {
       event: config.event,
       user_id: config.user_id,
-      conversion_event_id: config.conversion_event_id,
+      conversion_event_id: config.conversion_event_id, 
       customer_id: Number(this.getCookieValue('customer_id'))
     })
     .then(data => console.log(JSON.stringify(data)))
