@@ -1,15 +1,13 @@
 function Conversion() {
   
-  this.convert = function(config) {
+  this.convert = (config) => {
     config = config || {};
-    
-    // config.event = config.event || "conversion";
     
     this.updateCustomer(config);
     this.updateActivity(config);
   }
 
-  this.updateCustomer = function(config) {
+  this.updateCustomer = (config) => {
     postData('http://localhost:8080/customer-update', {
       email: config.email,
       first_name: config.first_name,
@@ -30,9 +28,9 @@ function Conversion() {
     }
   }
 
-  this.updateActivity = function(config) {
+  this.updateActivity = (config) => {
     postData('http://localhost:8080/customer-activity', {
-      event: config.event,
+      event: "conversion",
       user_id: config.user_id,
       conversion_event_id: config.conversion_event_id, 
       customer_id: Number(this.getCookieValue('customer_id'))
@@ -50,7 +48,7 @@ function Conversion() {
     }
   }
 
-  this.getCookieValue = function(cookie_name) {
+  this.getCookieValue = (cookie_name) => {
     var b = document.cookie.match('(^|[^;]+)\\s*' + cookie_name + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
   }
