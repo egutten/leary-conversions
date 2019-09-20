@@ -1,6 +1,13 @@
 function Conversion() {
+  
+  this.convert = (config) => {
+    config = config || {};
+    
+    this.updateCustomer(config);
+    this.updateActivity(config);
+  }
 
-  this.updateCustomer = function(config) {
+  this.updateCustomer = (config) => {
     postData('http://localhost:8080/customer-update', {
       email: config.email,
       first_name: config.first_name,
@@ -21,11 +28,11 @@ function Conversion() {
     }
   }
 
-  this.updateActivity = function(config) {
-    postData('http://localhost:8080/customer-activity-conversion', {
-      event: config.event,
+  this.updateActivity = (config) => {
+    postData('http://localhost:8080/customer-activity', {
+      event: "conversion",
       user_id: config.user_id,
-      conversion_event_id: config.conversion_event_id,
+      conversion_event_id: config.conversion_event_id, 
       customer_id: Number(this.getCookieValue('customer_id'))
     })
     .then(data => console.log(JSON.stringify(data)))
@@ -41,7 +48,7 @@ function Conversion() {
     }
   }
 
-  this.getCookieValue = function(cookie_name) {
+  this.getCookieValue = (cookie_name) => {
     var b = document.cookie.match('(^|[^;]+)\\s*' + cookie_name + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
   }
@@ -49,5 +56,9 @@ function Conversion() {
 }
 
 var conversion = new Conversion();
+
+const attr = document.getElementById('123456').getAttribute('data-config');
+const config = JSON.parse(attr);
+conversion.convert(config);
 
 // ./node_modules/.bin/http-server
