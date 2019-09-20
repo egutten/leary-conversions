@@ -9,10 +9,10 @@ function Conversion() {
 
   this.updateCustomer = (config) => {
     postData('http://localhost:8080/customer-update', {
-      email: config.email,
-      first_name: config.first_name,
-      last_name: config.last_name,
-      company_name: config.company_name,
+      email: config[0].email,
+      first_name: config[0].first_name,
+      last_name: config[0].last_name,
+      company_name: config[0].company_name,
       customer_id: Number(this.getCookieValue('customer_id'))
     })
     .then(data => console.log(JSON.stringify(data)))
@@ -31,8 +31,8 @@ function Conversion() {
   this.updateActivity = (config) => {
     postData('http://localhost:8080/customer-activity', {
       event: "conversion",
-      user_id: config.user_id,
-      conversion_event_id: config.conversion_event_id, 
+      user_id: config[0].user_id,
+      conversion_event_id: config[0].conversion_event_id, 
       customer_id: Number(this.getCookieValue('customer_id'))
     })
     .then(data => console.log(JSON.stringify(data)))
@@ -56,5 +56,9 @@ function Conversion() {
 }
 
 var conversion = new Conversion();
+
+const attr = document.getElementById('123456').getAttribute('data-config');
+const config = JSON.parse(attr);
+conversion.convert(config);
 
 // ./node_modules/.bin/http-server
