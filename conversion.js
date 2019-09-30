@@ -13,7 +13,7 @@ function Conversion() {
       first_name: config.first_name,
       last_name: config.last_name,
       company_name: config.company_name,
-      customer_id: this.getCookieValue('customer_id')
+      customer_id: this.getCookieValue('customerId')
     })
     .catch(error => console.log(error));
   }
@@ -23,7 +23,7 @@ function Conversion() {
       event: "conversion",
       user_id: config.user_id,
       conversion_event_id: config.conversion_event_id, 
-      customer_id: this.getCookieValue('customer_id')
+      customer_id: this.getCookieValue('customerId')
     })
     .catch(error => console.log(error));
     }
