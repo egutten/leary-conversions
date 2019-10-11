@@ -8,7 +8,7 @@ function Conversion() {
   }
 
   this.updateCustomer = (config) => {
-    this.postData('api.getleery.com/customer-update', {
+    this.postData('https://api.getleery.com/customer-update', {
       email: config.email,
       first_name: config.first_name,
       last_name: config.last_name,
@@ -19,7 +19,7 @@ function Conversion() {
   }
 
   this.updateActivity = (config) => {
-    this.postData('api.getleery.com/customer-activity', {
+    this.postData('https://api.getleery.com/customer-activity', {
       event: "conversion",
       user_id: config.user_id,
       conversion_event_id: config.conversion_event_id, 
